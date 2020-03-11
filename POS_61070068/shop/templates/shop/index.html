@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-7 ml-5">
+            <form action="{% url 'index' %}" method="get" class='form-inline w-100'>
+                <label for="input_name">ซื่อสินค้า : </label>
+                <input type="text" name="input_name" id="input_name" class="form-control m-3" value='{{ search_name }}'>
+                <label for="input_type">ประเภทสินค้า : </label>
+                <select name="input_type" id="input_type" class="form-control m-3">
+                    <option value="">ทั้งหมด</option>
+                    {% for t in type %}
+                    <option value="{{ t.name }}" {% if search_type == t.name %} selected {% endif %}>{{ t.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class='btn btn-primary'>search</button>
+            </form>
+            <div class='overflow-auto' style='height:625px;'>
+                <table class='table'>
+                    <tr>
+                        <td>Product name</td>
+                        <td>type</td>
+                        <td>price</td>
+                        <td></td>
+                    </tr>
+                    {% for p in product%}
+                    <tr>
+                        <td>{{ p.name }}</td>
+                        <td>{{ p.ProductType }}</td>
+                        <td>{{ p.price }}</td>
+                        <td>
+                            <a href="{% url 'Add_To_Cart' id=p.id %}">
+                                <div class="btn btn-warning" id="{{p.id}}">Add</div>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div class="col-4 border mt-5 ml-3" id='card_list' style='height:500px;border-radius:20px;'>
+            <form action="{% url 'sale' %}" method="post">
+                <br>
+                <h3>Cart</h3>
+                <p class='text-success'>{{ msg }}</p>
+                {% csrf_token %}
+                <div class='overflow-auto' style='height:300px;'>
+                    <table class='table' style=''>
+                        <tr>
+                            <td>Product name</td>
+                            <td>price</td>
+                            <td>Amount</td>
+                            <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+                        </tr>
+
+                        {% for item in cart%}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.price }}</td>
+                            <td>
+                                <input onfocusout="recalculate(this, {{ item.product_id }})" type="number"
+                                    name="{{ item.name }}_amount" id="{{ item.id }}" min="0" value='{{ item.amount }}'
+                                    style='width:50px;'>
+                            </td>
+                            <td>
+                                <a href="{% url 'delete' id=item.product_id %}"><button type='button'
+                                        class="btn btn-danger ">delete</button></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <h3>total : {{ price }} Baht</h3>
+                <button type="submit" class="btn btn-primary ">Sale</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if user.is_authenticated %}
+{% endif %}
+
+<script>
+    refresh = 0
+    function recalculate(input, pid) {
+        pid = parseInt(pid)
+        pamount = parseInt(input.value)
+        location.href = "{% url 'recal' id='xxx' amount='yyy' %}".replace('xxx', pid).replace('yyy', pamount)
+    }
+        //location.href="{% url 'index' %}" //this will redirect to your index
+</script>
+
+{% endblock %}
+
+{% block footer %}
+Footer of index page!!!
+{% endblock %}

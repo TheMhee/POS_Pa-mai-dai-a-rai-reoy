@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-7 ml-5">
+
+            <form action="" method="post" class='form-inline'>
+            </form>
+            <br>
+            <div class='overflow-auto' style='height:575px;'>
+                <table class='table'>
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Date</th>
+                            <th>Order no</th>
+                            <th>Product Name</th>
+                            <th>Price</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <!-- for loop order -->
+                    
+                    {% for item in orders %}
+                        {% for product in item.product %}
+                            <tr>
+                                {% if product == item.product|first %}
+                                    <td>{{ item.detail.date_time.day }}/{{ item.detail.date_time.month }}/{{ item.detail.date_time.year }}
+                                    </td>
+                                    <td>{{ item.detail.id }}</td>
+                                {% else %}
+                                    <td></td>
+                                    <td></td>
+                                {% endif %}
+                                <td>{{ product.product_detail.name }}</td>
+                                <td>{{ product.product_detail.price }}</td>
+                                <td>{{ product.amount }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                    
+                </table>
+            </div>
+        </div>
+        <div class="col-4 border mt-5 ml-3" id='card_list' style='height:500px;border-radius:20px;'>
+            <br>
+            {% if report_type == 'day' %}
+                <h3>ยอดขาย ณ {{ date_time.day }}/{{ date_time.month }}/{{ date_time.year }}</h3>
+            {% elif report_type == 'week' %}
+                <h3>ยอดขายสัปดาห์ที่ {{ need_time }}/{{ date_time.year }}</h3>
+            {% elif report_type == 'month' %}
+                <h3>ยอดขายเดือน {{ date_time.month }}/{{ date_time.year }}</h3>
+            {% elif report_type == 'year' %}
+                <h3>ยอดขายปี {{ date_time.year }}</h3>
+            {% endif %}
+            {% csrf_token %}
+            <div class='overflow-auto' style='height:300px;'>
+                <table class='table' style=''>
+                    <tr>
+                        <td>Product name</td>
+                        <td>Amount</td>
+                    </tr>
+
+                    <!-- for loop result -->
+                    {% for item in sold %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.amount }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <h3>total : {{ total_price }} Baht</h3>
+            
+        </div>
+    </div>
+</div>
+
+{% if user.is_authenticated %}
+{% endif %}
+
+<script>
+    refresh = 0
+    function recalculate(input, pid) {
+        pid = parseInt(pid)
+        pamount = parseInt(input.value)
+        location.href = "{% url 'recal' id='xxx' amount='yyy' %}".replace('xxx', pid).replace('yyy', pamount)
+    }
+        //location.href="{% url 'index' %}" //this will redirect to your index
+</script>
+
+{% endblock %}
+
+{% block footer %}
+Footer of index page!!!
+{% endblock %}

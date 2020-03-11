@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="row p-3" style=''>
+                <div class="col-12 text-center mb-3">
+                    {% if report_type == 'day' %}
+                    <h3 class=''>ยอดขายรายวัน</h3>
+                    {% elif report_type == 'week' %}
+                    <h3 class=''>ยอดขายรายสัปดาห์</h3>
+                    {% elif report_type == 'month' %}
+                    <h3 class=''>ยอดขายรายเดือน</h3>
+                    {% elif report_type == 'year' %}
+                    <h3 class=''>ยอดขายรายปี</h3>
+                    {% endif %}
+                </div>
+                <div class="col-3">
+                    <a href="{% url 'report_list' report_type='day' %}">
+                    <button type=button class='btn btn-primary w-100'>รายวัน</button>
+                    </a>
+                </div>
+                <div class="col-3">
+                    <a href="{% url 'report_list' report_type='week' %}">
+                        <button type=button class='btn btn-primary w-100'>รายสัปดาห์</button>
+                    </a>
+                </div>
+                <div class="col-3">
+                    <a href="{% url 'report_list' report_type='month' %}">
+                        <button type=button class='btn btn-primary w-100'>รายเดือน</button>
+                    </a>
+                </div>
+                <div class="col-3">
+                    <a href="{% url 'report_list' report_type='year' %}">
+                        <button type=button class='btn btn-primary w-100'>รายปี</button>
+                    </a>
+                </div>
+
+            </div>
+            <div class='overflow-auto' style=''>
+                <table class='table'>
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Time</th>
+                            <th>Sale Amount</th>
+                            <th>Total Income</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <!-- for loop order -->
+
+                    {% for item in sale_list %}
+                        <tr>
+                            {% if report_type == 'day' %}
+                            <td>{{ item.date_time.day }}/{{ item.date_time.month }}/{{ item.date_time.year }}</td>
+                            {% elif report_type == 'week' %}
+                            <td>week{{ item.week_time }}/{{ item.date_time.year }}</td>
+                            {% elif report_type == 'month' %}
+                            <td>{{ item.date_time.month }}/{{ item.date_time.year }}</td>
+                            {% elif report_type == 'year' %}
+                            <td>{{ item.date_time.year }}</td>
+                            {% endif %}
+                            <td>{{ item.amount }}</td>
+                            <td>{{ item.total_price }}</td>
+                            <td class='text-center'>
+                                {% if report_type == 'day' %}
+                                <a href="{% url 'report_search_day' item.date_time.day item.date_time.month item.date_time.year %}">
+                                <button type="submit" class="btn btn-warning ">view</button>
+                                </a>
+                                {% elif report_type == 'week' %}
+                                <a href="{% url 'report_search_week' year=item.date_time.year week=item.week_time %}">
+                                <button type="submit" class="btn btn-warning ">view</button>
+                                </a>
+                                {% elif report_type == 'month' %}
+                                <a href="{% url 'report_search_month' month=item.date_time.month year=item.date_time.year %}">
+                                <button type="submit" class="btn btn-warning ">view</button>
+                                </a>
+                                {% elif report_type == 'year' %}
+                                <a href="{% url 'report_search_year' year=item.date_time.year %}">
+                                <button type="submit" class="btn btn-warning ">view</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if user.is_authenticated %}
+{% endif %}
+
+<script>
+    refresh = 0
+    function recalculate(input, pid) {
+        pid = parseInt(pid)
+        pamount = parseInt(input.value)
+        location.href = "{% url 'recal' id='xxx' amount='yyy' %}".replace('xxx', pid).replace('yyy', pamount)
+    }
+        //location.href="{% url 'index' %}" //this will redirect to your index
+</script>
+
+{% endblock %}
+
+{% block footer %}
+Footer of index page!!!
+{% endblock %}

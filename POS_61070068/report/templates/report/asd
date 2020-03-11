@@ -1,0 +1,55 @@
+</a>
+                        <tr>
+                            {% if report_type == 'day' %}
+                            <td>{{ item.want_time }}/{{ item.date_time.month }}/{{ item.date_time.year }}</td>
+                            {% elif report_type == 'week' %}
+                            <td>week{{ item.want_time }}/{{ item.date_time.year }}</td>
+                            {% elif report_type == 'month' %}
+                            <td>{{ item.want_time }}/{{ item.date_time.year }}</td>
+                            {% elif report_type == 'year' %}
+                            <td>{{ item.want_time }}</td>
+                            {% endif %}
+                            <td>{{ item.amount }}</td>
+                            <td>{{ item.total_price }}</td>
+                        </tr>
+                        </a>
+
+                        <!--<tr>
+                        {% if report_type == 'day' %}
+                        <a href="{% url 'report_search' item.want_time 0 0 0 % }">
+                        
+                            <td>{{ item.want_time }}/{{ item.date_time.month }}/{{ item.date_time.year }}</td>
+                        {% elif report_type == 'week' %}
+                        <a href="{% url 'report_search' 0 0 0 item.want_time % }">
+                        
+                            <td>week{{ item.want_time }}/{{ item.date_time.year }}</td>
+                        {% elif report_type == 'month' %}
+                        <a href="{% url 'report_search' 0 item.want_time 0 0 % }">
+                        
+                            <td>{{ item.want_time }}/{{ item.date_time.year }}</td>
+                        {% elif report_type == 'year' %}
+                        <a href="{% url 'report_search' 0 0 item.want_time 0 % }">
+                        
+                            <td>{{ item.want_time }}</td>
+                        {% endif %>
+                            <td>{{ item.amount }}</td>
+                            <td>{{ item.total_price }}</td>
+                        </tr>
+                        -->
+
+                        {% if report_type == 'day' %}
+                            <a href="{% url 'report_search' item.want_time item.date_time.month item.date_time.year 0 %}">
+                            <td>{{ item.want_time }}/{{ item.date_time.month }}/{{ item.date_time.year }}</td>
+                            </a>
+                            {% elif report_type == 'week' %}>
+                            <a href="{% url 'report_search' 0 item.date_time.month item.date_time.year item.want_time %}">
+                            <td>week{{ item.want_time }}/{{ item.date_time.year }}</td>
+                            </a>
+                            {% elif report_type == 'month' %}>
+                            <a href="{% url 'report_search' 0 item.want_time item.date_time.year 0 %}">
+                            <td>{{ item.want_time }}/{{ item.date_time.year }}</td>
+                            </a>
+                            {% elif report_type == 'year' %}>
+                            <a href="{% url 'report_search' 0 0 item.want_time 0 %}">
+                            <td>{{ item.want_time }}</td>
+                            {% endif %}

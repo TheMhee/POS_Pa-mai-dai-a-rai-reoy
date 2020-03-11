@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<br>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div style='height:400px;border-radius:20px;' class='border p-5'>
+                <h3 class=text-center> Welcome Pa' </h3>
+                <form action="{% url 'my_login' %}" method="post" class='form'>
+                    {% csrf_token %}
+                    <p class='text-danger'>{{ error }}</p>
+                    <label class='mt-2' for="username">Username : </label>
+                    <input class='form-control' type="text" name="username" placeholder='username' value='{{ username }}' id="username">
+                    <label class='mb-2 mt-2' for="password">Password : </label>
+                    <input class='form-control' type="password" name="password" placeholder='password' id="password">
+                    <br>
+                    <button type="submit" class='btn btn-success mb-2 mt-2'>login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+Footer of index page!!!
+{% endblock %}
