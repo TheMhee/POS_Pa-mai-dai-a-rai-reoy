@@ -6,33 +6,33 @@
     <div class="row">
         <div class="col-8">
             <p class='text-success'>{{ message }}</p>
-            {% if manage_type == 1 %}
+            {% if manage_type == 'product' %}
                 <form action="{% url 'create' manage_type %}" method="post" class='form'>
             {% endif %}
 
-            {% if manage_type == 2 %}
+            {% if manage_type == 'type' %}
                 <form action="{% url 'create' manage_type %}" method="post" class='form'>
             {% endif %}
 
             {% csrf_token %}
-                {% if manage_type == 1 %}
+                {% if manage_type == 'product' %}
                     <label class='mt-3' for="input_name">ชื่อสินค้า : </label>
                     <input class="form-control" type="text" name="input_name" id="input_name" value=''>
                 {% endif %}
-                {% if manage_type == 2 %}
+                {% if manage_type == 'type' %}
                     <label class='mt-3' for="input_name">ประเภทสินค้า : </label>
                     <input class="form-control" type="text" name="input_name" id="input_name" value=''>
                 {% endif %}
 
                 <label class='mt-3' for="input_desc">คำอธิบาย : </label>
-                {% if manage_type == 1 %}
+                {% if manage_type == 'product' %}
                     <textarea class="form-control" rows="5" id="input_desc" name='input_desc'></textarea>
                 {% endif %}
-                {% if manage_type == 2 %}
+                {% if manage_type == 'type' %}
                     <textarea class="form-control" rows="5" id="input_desc" name='input_desc'></textarea>
                 {% endif %}
 
-                {% if manage_type == 1 %}
+                {% if manage_type == 'product' %}
                     <label class='mt-3' for="input_price">ราคา : </label>
                     <input class="form-control" type="ืีทิำพ" name="input_price" id="input_price" value=''>
                     <label class='mt-3' for="input_type">คำอธิบาย : </label>

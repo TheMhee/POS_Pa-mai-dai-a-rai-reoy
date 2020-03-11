@@ -2,13 +2,13 @@
 {% block content %}
 <div class="container">
     <div class="container-fluid">
-        {% if manage == 1 %}
+        {% if manage_type == 'product' %}
 
-        <form action="{% url 'manage' 1 %}" method="post" class='form-inline w-100'>
+        <form action="{% url 'manage' manage_type='product' %}" method="get" class='form-inline w-100'>
 
-        {% elif manage == 2 %}
+        {% elif manage_type == 'type' %}
 
-        <form action="{% url 'manage' 2 %}" method="post" class='form-inline w-100'>
+        <form action="{% url 'manage' manage_type='type' %}" method="get" class='form-inline w-100'>
 
         {% endif %}
                 {% csrf_token %}
@@ -16,13 +16,13 @@
 
                     <div class="col-2">
                         <div class="form-group">
-                            {% if manage == 2 %}
-                            <a href="{% url 'manage' 1 %}">
+                            {% if manage_type == 'type' %}
+                            <a href="{% url 'manage' manage_type='product' %}">
                                 <button type=button class="btn btn-secondary form-control mt-3  from-control"
                                     >ประเภทสินค้า</button>
                             </a>
-                            {% elif manage == 1 %}
-                            <a href="{% url 'manage' 2 %}">
+                            {% elif manage_type == 'product' %}
+                            <a href="{% url 'manage' manage_type='type' %}">
                                 <button type=button class="btn btn-secondary form-control mt-3  from-control"
                                     >รายการสินค้า</button>
                             </a>
@@ -32,7 +32,7 @@
 
                     <div class="col-8">
                         <div class="form-group">
-                            {% if manage == 1 %}
+                            {% if manage_type == 'product' %}
                             <label for="inputname">ซื่อสินค้า : </label>
                             <input type="text" name="inputname" id="inputname" class="form-control m-3"
                                 value='{{ search_name }}'>
@@ -51,12 +51,12 @@
                         </div>
                     </div>
                     <div class="col-2 text-right">
-                        {% if manage == 1 %}
-                            <a href="{% url 'create' manage %}">
+                        {% if manage_type == 'product' %}
+                            <a href="{% url 'create' manage_type %}">
                                 <div class="btn btn-success mt-3">สร้างสินค้า</div>
                             </a>
                             {% else %}
-                            <a href="{% url 'create' manage %}">
+                            <a href="{% url 'create' manage_type %}">
                                 <div class="btn btn-success mt-3">สร้างประเภทสินค้า</div>
                             </a>
                             {% endif %}
@@ -70,7 +70,7 @@
 
 
 
-    {% if manage == 1 %}
+    {% if manage_type == 'product' %}
     <div class='overflow-auto' style='height:615px;'>
         <table class='table'>
             <thead class="thead-dark">
@@ -91,10 +91,10 @@
                 <td>{{ p.price }}</td>
                 <td class='text-center'>
 
-                    <a href="{% url 'edit' manage p.id %}">
+                    <a href="{% url 'edit' manage_type p.id %}">
                         <div class="btn btn-warning" id="{{p.id}}">Edit</div>
                     </a>
-                    <a href="{% url 'delete' manage p.id %}">
+                    <a href="{% url 'delete' manage_type p.id %}">
                         <div class="btn btn-danger" id="{{p.id}}">delete</div>
                     </a>
 
@@ -104,7 +104,7 @@
         </table>
     </div>
 
-    {% elif manage == 2 %}
+    {% elif manage_type == 'type' %}
     <div class='overflow-auto' style='height:615px;'>
         <table class='table'>
             <tr>
@@ -112,16 +112,16 @@
                 <td>Description</td>
                 <td></td>
             </tr>
-            {% for t in type_want%}
+            {% for t in type_want %}
             <tr>
                 <td>{{ t.name }}</td>
                 <td>{{ t.description }}</td>
                 <td>
 
-                    <a href="{% url 'edit' manage t.id %}">
+                    <a href="{% url 'edit' manage_type t.id %}">
                         <div class="btn btn-warning" id="{{t.id}}">Edit</div>
                     </a>
-                    <a href="{% url 'delete' manage t.id %}">
+                    <a href="{% url 'delete' manage_type t.id %}">
                         <div class="btn btn-danger" id="{{t.id}}">delete</div>
                     </a>
 

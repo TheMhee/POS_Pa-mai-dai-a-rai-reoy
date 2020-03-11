@@ -79,7 +79,7 @@ def sale(request):
     context ={
         'product':Product.objects.all(),
         'type':ProductType.objects.all(),
-        'msg':'Create order id : %s successful' %order.id,
+        'msg':'Create order id : %s successfully' %order.id,
     }
     #return redirect(to='index')
     return render(request, template_name='shop/index.html', context=context)

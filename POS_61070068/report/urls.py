@@ -23,6 +23,6 @@ urlpatterns = [
     path('search/<int:month>/<int:year>/', views.report_search_month, name='report_search_month'),
     path('search/<int:year>/', views.report_search_year, name='report_search_year'),
     path('search/<int:year>/<int:week>', views.report_search_week, name='report_search_week'),
-    path('list/<str:report_type>/', views.report, name='report_list'),
+    path('<str:report_type>/', views.report, name='report_list'),
     
 ]

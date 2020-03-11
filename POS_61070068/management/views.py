@@ -13,8 +13,8 @@ def manage(request, manage_type):
     typee = ProductType.objects.all()
     products = Product.objects.all()
     type_want = typee
-    search_name = request.POST.get('inputname', '')
-    search_type = request.POST.get('inputtype')
+    search_name = request.GET.get('inputname', '')
+    search_type = request.GET.get('inputtype')
 
     products = products.filter(name__contains=search_name)
 
@@ -28,7 +28,7 @@ def manage(request, manage_type):
         'product' : products,
         'search_name' : search_name,
         'search_type' : search_type,
-        'manage' : manage_type, # 1 คือแสดงรายการสินค้า 2 แสดงรายการประเภทสินค้า
+        'manage_type' : manage_type, # 1 คือแสดงรายการสินค้า 2 แสดงรายการประเภทสินค้า
     }
     print(type_want)
     return render(request, template_name='management/manage.html', context=context)
@@ -38,25 +38,25 @@ def edit(request, manage_type, id):
     typee = ProductType.objects.all()
     products = []
     message = ''
-    if manage_type == 1: 
+    if manage_type == 'product': 
         products = Product.objects.get(pk=id)
-    elif manage_type == 2:
+    elif manage_type == 'type':
         typee = typee.get(pk=id)
     
-    if request.method == 'POST' and manage_type == 2:
+    if request.method == 'POST' and manage_type == 'type':
             typee.name = request.POST.get('input_name')
             typee.description = request.POST.get('input_desc')
             typee.save()
-            message = 'Edit %s product type sucessful' %typee.name
+            message = 'Edit %s product type sucessfully' %typee.name
 
-    elif request.method == 'POST' and manage_type == 1:
+    elif request.method == 'POST' and manage_type == 'product':
             products = Product.objects.get(pk=id)
             products.name = request.POST.get('input_name')
             products.description = request.POST.get('input_desc')
             products.price = request.POST.get('input_price')
             products.ProductType_id = request.POST.get('input_type')
             products.save()
-            message = 'Edit product : %s sucessful' %products.name
+            message = 'Edit product : %s sucessfully' %products.name
 
     context = {
         'manage_type':manage_type,
@@ -70,14 +70,14 @@ def edit(request, manage_type, id):
 def create(request, manage_type):
     typee = ProductType.objects.all()
     message = ''
-    if request.method == 'POST' and manage_type == 2:
+    if request.method == 'POST' and manage_type == 'type':
             typee = ProductType()
             typee.name = request.POST.get('input_name')
             typee.description = request.POST.get('input_desc')
             typee.save()
             message = 'Create %s product type sucessful' %typee.name
 
-    elif request.method == 'POST' and manage_type == 1:
+    elif request.method == 'POST' and manage_type == 'product':
             products = Product()
             products.name = request.POST.get('input_name')
             products.description = request.POST.get('input_desc')
@@ -94,7 +94,7 @@ def create(request, manage_type):
     
 @login_required
 def delete(request, manage_type, id):
-    if manage_type == 1:
+    if manage_type == 'product':
         print(1)
         product = Product.objects.get(pk=id)
         product.delete()

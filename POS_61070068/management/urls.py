@@ -17,10 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from . import views
 urlpatterns = [
-    path('list/<int:manage_type>', views.manage, name='manage'),
+    path('<str:manage_type>', views.manage, name='manage'),
    # path('type/', views.manage_type, name='manage_type'),
-    path('edit/<int:manage_type>/<int:id>', views.edit, name='edit'),
-    path('delete/<int:manage_type>/<int:id>', views.delete, name='delete'),
-    path('create/<int:manage_type>', views.create, name='create'),
+    path('edit/<str:manage_type>/<int:id>', views.edit, name='edit'),
+    path('delete/<str:manage_type>/<int:id>', views.delete, name='delete'),
+    path('create/<str:manage_type>', views.create, name='create'),
     
 ]
